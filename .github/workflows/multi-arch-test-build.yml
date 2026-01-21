@@ -5,9 +5,6 @@ on:
     branches:
       - master
       - main
-  pull_request:
-    paths-ignore:
-      - '**.md'
 
 jobs:
   build:
@@ -81,13 +78,9 @@ jobs:
 
           PACKAGES=""
           for ROOT in $PKG_ROOTS; do
-            for CHANGE in $CHANGES; do
-              if [[ "$CHANGE" == "$ROOT"* ]]; then
-                PACKAGE_NAME=$(echo "$ROOT" | sed -e 's@\(.*\)/@\1@')
-                PACKAGES="$PACKAGES $PACKAGE_NAME"
-                break
-              fi
-            done
+            PACKAGE_NAME=$(echo "$ROOT" | sed -e 's@\(.*\)/@\1@')
+            PACKAGES="$PACKAGES $PACKAGE_NAME"
+            
           done
           
           # fallback to test packages if nothing explicitly changes
