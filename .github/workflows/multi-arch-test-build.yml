@@ -15,7 +15,7 @@ jobs:
       matrix:
         include:
           - arch: x86_64
-            target: x86-64
+            target: x86/64
 
     steps:
       - name: Free Disk Space
