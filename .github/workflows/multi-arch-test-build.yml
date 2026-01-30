@@ -58,6 +58,7 @@ jobs:
           V: s
           target: ${{ matrix.target }}
           # packages 留空或使用默认值
+          PACKAGES: "*"
 
       - name: Move created packages to project dir
         run: cp bin/packages/${{ matrix.arch }}/packages_ci/*.ipk . || true
