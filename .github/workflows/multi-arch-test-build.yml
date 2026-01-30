@@ -45,10 +45,14 @@ jobs:
 
       - name: Build all packages
         run: |
-          # 设置为空字符串，让 SDK 构建所有包
-          # 或者根据实际情况设置特定值
-          echo "PACKAGES=" >> $GITHUB_ENV
-          echo "Building all packages for $BRANCH"
+          
+          PACKAGES=""
+          for ROOT in $PKG_ROOTS; do
+            PACKAGE_NAME=$(echo "$ROOT" | sed -e 's@\(.*\)/@\1@')
+            PACKAGES="$PACKAGES $PACKAGE_NAME"
+          done
+          echo "Building $PACKAGES"
+          echo "PACKAGES=$PACKAGES" >> $GITHUB_ENV
 
       - name: Build
         uses: immortalwrt/gh-action-sdk@v7
@@ -58,7 +62,6 @@ jobs:
           V: s
           target: ${{ matrix.target }}
           # packages 留空或使用默认值
-          PACKAGES: "*"
 
       - name: Move created packages to project dir
         run: cp bin/packages/${{ matrix.arch }}/packages_ci/*.ipk . || true
