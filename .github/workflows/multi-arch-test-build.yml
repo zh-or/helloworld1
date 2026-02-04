@@ -62,7 +62,13 @@ jobs:
           V: s
           target: ${{ matrix.target }}
           # packages 留空或使用默认值
-
+      - name: Find and list all built IPK files
+        run: |
+          echo "=== 开始搜索 .ipk 文件 ==="
+          # 在整个工作区中查找所有 .ipk 文件
+          find . -name "*.ipk" -type f 2>/dev/null | head -20
+          echo "=== 搜索结束 ==="
+          
       - name: Move created packages to project dir
         run: cp bin/packages/${{ matrix.arch }}/packages_ci/*.ipk . || true
 
